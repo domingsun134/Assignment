@@ -14,6 +14,7 @@ A beautiful, modern AI chatbot built with Flask and HTML/CSS that connects to Ol
 - 👤 **User Authentication**: Register, login, and manage user profiles
 - 💾 **Conversation History**: Persistent chat history with database storage
 - 🐳 **Docker Support**: Easy deployment with Docker Compose
+- 🔐 **Security**: Bcrypt password hashing, input validation, rate limiting
 
 ## Architecture
 
@@ -28,7 +29,7 @@ A beautiful, modern AI chatbot built with Flask and HTML/CSS that connects to Ol
 │                 │    │                 │    │                 │
 │                 │    │ ┌─────────────┐ │    │ ┌─────────────┐ │
 │                 │    │ │  Auth       │ │    │ │  AI Models  │ │
-│                 │    | |  System     │ │    │ │  (phi3,     │ │
+│                 │    │ │  System     │ │    │ │  (phi3,     │ │
 │                 │    │ └─────────────┘ │    │ │  deepseek)  │ │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
                                 │
@@ -76,16 +77,19 @@ A beautiful, modern AI chatbot built with Flask and HTML/CSS that connects to Ol
 - **Model Selection**: User can choose and maintain their preferred model
 
 ### Security
-- **Password Hashing**: SHA-256 for secure password storage
+- **Bcrypt Password Hashing**: Secure password storage with salt
 - **Session Management**: Secure user sessions with Flask
 - **Input Validation**: Server-side validation for all user inputs
 - **SQL Injection Protection**: Parameterized queries with SQLite
+- **Rate Limiting**: IP-based rate limiting to prevent abuse
+- **Security Headers**: XSS protection, content type options, frame options
 
 ### Deployment
 - **Docker**: Containerized deployment for consistency
 - **Docker Compose**: Multi-service orchestration (Flask + Ollama)
 - **Environment Variables**: Configurable settings for different environments
 - **Health Checks**: Built-in health monitoring for containers
+- **Security Options**: No-new-privileges, read-only filesystem where possible
 
 ### Why These Choices?
 
@@ -264,10 +268,24 @@ If the chatbot can't connect to the server:
 ### Model Auto-Switching Issue (Fixed)
 The model selection now properly maintains your choice throughout the conversation. The previous issue where models would auto-switch back to phi3 has been resolved.
 
+### DeepSeek Model Not Pulling (Fixed)
+The DeepSeek model pull script has been updated to match the working Phi-3 pattern. Both models should now pull successfully during startup.
+
+### Authentication Issues (Fixed)
+- **Login/Register Display**: Fixed to show correct buttons for anonymous vs authenticated users
+- **Password Hashing**: Upgraded to bcrypt for secure password storage
+- **Session Management**: Improved session handling for better user experience
+
 ### Slow Responses
 - Try a smaller model (e.g., `llama2:7b` instead of `llama2:13b`)
 - Close other applications to free up RAM
 - Consider using a more powerful machine
+
+### Docker Issues
+If you encounter Docker-related issues:
+1. **Line ending errors**: The Dockerfile now includes `dos2unix` to fix Windows/Unix line ending issues
+2. **Permission errors**: The startup script is properly made executable
+3. **Model pull failures**: Both model pull scripts have been standardized for reliability
 
 ## Customization
 
@@ -344,4 +362,4 @@ If you encounter issues:
 
 ---
 
-**Happy Chatting! 🤖✨** 
+**Happy Chatting! 🤖✨**

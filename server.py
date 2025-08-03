@@ -546,20 +546,21 @@ def get_user_id():
         
         # Check if this is an authenticated user (starts with auth_user_)
         if isinstance(user_id, str) and user_id.startswith('auth_user_'):
-            # Extract the actual user ID from the prefixed string
-            actual_user_id = int(user_id.replace('auth_user_', ''))
             return user_id  # Return the prefixed version for template compatibility
         elif isinstance(user_id, int):
             # Legacy case: convert integer user ID to prefixed string
             session['user_id'] = f"auth_user_{user_id}"
             return f"auth_user_{user_id}"
         else:
-            # This is an anonymous user ID, return as is
-            return user_id
+            # This is an anonymous user ID, but we don't want to show logout
+            # Clear the session for anonymous users
+            session.pop('user_id', None)
     
-    # Generate anonymous user ID
+    # For anonymous users, don't create a session
+    # This will make the template show Login/Register buttons
     user_id = f"anon_user_{int(time.time())}_{os.getpid()}"
-    session['user_id'] = user_id
+    # Don't store in session for anonymous users
+    # session['user_id'] = user_id  # Comment this out
     # Create user in database
     db_manager.get_or_create_user(user_id)
     return user_id
