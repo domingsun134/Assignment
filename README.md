@@ -121,15 +121,7 @@ Before running this chatbot, you need to:
 
 The easiest way to run the chatbot with automatic model setup:
 
-1. In Docker terminal
-
 ```bash
-# Git clone the repo to your local
-git clone https://github.com/domingsun134/Assignment.git
-
-# cd to the Assignment directory
-cd Assignment
-
 # Build and start with Docker Compose
 docker-compose up --build
 
