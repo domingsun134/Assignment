@@ -1,0 +1,56 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 4G
+    restart: unless-stopped
+
+
+  chatbot:
+    build: .
+    container_name: ai-chatbot
+    ports:
+      - "5000:5000"
+    depends_on:
+      ollama:
+        condition: service_started
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - DEFAULT_MODEL=phi3:latest
+      - DATABASE_PATH=/app/data/chatbot.db
+      - SECRET_KEY=${SECRET_KEY:-$(openssl rand -hex 32)}
+    volumes:
+      - chatbot_data:/app/data
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: false
+    tmpfs:
+      - /tmp
+      - /var/tmp
+
+
+volumes:
+  ollama_data:
+    name: ollama_data
+    driver: local
+  chatbot_data:
+    name: chatbot_data
+    driver: local 
