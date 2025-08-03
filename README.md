@@ -7,8 +7,7 @@ A beautiful, modern AI chatbot built with Flask and HTML/CSS that connects to Ol
 - 🎨 **Modern UI**: Beautiful gradient design with smooth animations
 - 🤖 **AI Powered**: Connects to Ollama for local AI model inference
 - 📱 **Responsive**: Works perfectly on desktop and mobile devices
-- 🔄 **Real-time**: Live chat with typing indicators
-- 🎯 **Model Selection**: Choose from different Ollama models (fixed auto-switching issue)
+- 🎯 **Model Selection**: Choose from different Ollama models
 - 🚀 **Zero JavaScript**: Pure HTML/CSS only
 - 🔒 **Local**: All processing happens on your machine via Ollama
 - 👤 **User Authentication**: Register, login, and manage user profiles
@@ -72,8 +71,7 @@ A beautiful, modern AI chatbot built with Flask and HTML/CSS that connects to Ol
 
 ### AI Integration
 - **Ollama**: Local AI model inference server
-- **Multiple Models**: Support for phi3, deepseek-r1:1.5b, llama2, and more
-- **Streaming Responses**: Real-time AI response generation
+- **Multiple Models**: Support for phi3, deepseek-r1:1.5b
 - **Model Selection**: User can choose and maintain their preferred model
 
 ### Security
@@ -100,16 +98,6 @@ A beautiful, modern AI chatbot built with Flask and HTML/CSS that connects to Ol
 5. **Scalability**: Modular architecture for easy feature additions
 6. **User Experience**: Modern UI with responsive design
 7. **Developer Experience**: Clear separation of concerns and well-documented code
-
-## Screenshots
-
-The chatbot features a modern interface with:
-- Gradient background and glass-morphism effects
-- User and AI message bubbles with avatars
-- Typing indicators during AI response generation
-- Model selection dropdown (maintains selection)
-- User authentication system
-- Responsive design for all screen sizes
 
 ## Prerequisites
 
