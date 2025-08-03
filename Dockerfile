@@ -6,6 +6,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
+    dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
@@ -17,6 +18,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application files
 COPY . .
 
+# Fix line endings and make startup script executable
+RUN dos2unix startup.sh && chmod +x startup.sh
+
 # Expose port
 EXPOSE 5000
 
@@ -24,8 +28,5 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:5000/api/health || exit 1
 
-# Make startup script executable
-RUN chmod +x startup.sh
-
 # Run the application
-CMD ["./startup.sh"] 
+CMD ["./startup.sh"]
